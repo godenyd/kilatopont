@@ -10,7 +10,15 @@ public class Kilatopont extends Hely implements ILatnivalo {
 	@Override
 	public void letogatokRogzitese() {
 		
-		
 	}
 
+	public String serialize() {
+		return getNev() + ";" + getMagassag() + ";" + getKornyezet().name();
+	}
+	
+	public static Hely deserialize(String value) {
+		String[] values = value.split(";");
+		
+		return new Kilatopont(values[0], Integer.parseInt(values[1]), Kornyezet.getByName(values[2]));
+	}
 }

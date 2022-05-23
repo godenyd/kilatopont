@@ -16,11 +16,12 @@ public abstract class Hely {
 		return this.nev;
 	}
 	
-	public int getMagassg() {
+	public int getMagassag() {
 		return this.magassag;
 	}
 	
 	public Kornyezet getKornyezet() {
 		return this.kornyezet;
 	}
+
 }
