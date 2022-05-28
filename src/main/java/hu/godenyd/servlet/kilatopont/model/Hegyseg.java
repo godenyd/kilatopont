@@ -1,7 +1,13 @@
 package hu.godenyd.servlet.kilatopont.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import hu.godenyd.servlet.kilatopont.util.KilatoSerializerUtil;
 
 public class Hegyseg {
 
@@ -10,8 +16,20 @@ public class Hegyseg {
 	
 	private static Hegyseg instance = null;
 	
+	// initialize hegyseg
 	private Hegyseg() {
-		kilatopontok = new ArrayList<>();
+		
+		Optional<String> hegysegString = Optional.empty();
+		
+		try {
+			hegysegString = KilatoSerializerUtil.readHegysegFromFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			kilatopontok = new ArrayList<>();
+			hegysegString.ifPresent(hegyseg -> getHegyseg().deserialize(hegyseg));
+		}
+		
 	}
 	
 	public static Hegyseg getHegyseg() {
@@ -39,5 +57,17 @@ public class Hegyseg {
 		if (kilatopontok.size() > 0) {
 			currentKilatopont = kilatopontok.get(0);
 		}
+	}
+	
+	public String serialize() {
+		return kilatopontok.stream()
+				.map(Kilatopont::serialize)
+				.collect(Collectors.joining(":"));
+	}
+	
+	public void deserialize(String hegysegString) {
+		kilatopontok = Stream.of(hegysegString.split(":"))
+				.map(Kilatopont::deserialize)
+				.collect(Collectors.toList());
 	}
 }
