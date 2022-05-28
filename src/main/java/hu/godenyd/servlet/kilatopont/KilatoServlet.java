@@ -7,7 +7,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import hu.godenyd.servlet.kilatopont.controller.AdvanceKilatoAction;
+import hu.godenyd.servlet.kilatopont.controller.SaveKilatopontAction;
 import hu.godenyd.servlet.kilatopont.model.Hegyseg;
+import hu.godenyd.servlet.kilatopont.util.ActionKeys;
+import hu.godenyd.servlet.kilatopont.util.WebKeys;
 
 /**
  * Servlet implementation class KilatoServlet
@@ -41,7 +45,18 @@ public class KilatoServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
+		String action = request.getParameter(WebKeys.ACTION);
+		
+		switch(action) {
+		case ActionKeys.ADVANCE_KILATO:
+			AdvanceKilatoAction.processAction(request, response);
+			break;
+		case ActionKeys.SAVE_KILATO:
+			SaveKilatopontAction.processAction(request, response);
+			break;
+		}
+		
 		doGet(request, response);
 	}
 

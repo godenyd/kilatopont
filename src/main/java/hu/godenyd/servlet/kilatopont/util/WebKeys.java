@@ -8,6 +8,10 @@ public class WebKeys {
 	
 	public static final String KORNYEZET = "kornyezet";
 	
+	public static final String ACTION = "action";
+	
+	public static final String DO_SHOW_KILATO = "doShowKilato";
+	
 	// prevent instantiation
 	private WebKeys() {
 		

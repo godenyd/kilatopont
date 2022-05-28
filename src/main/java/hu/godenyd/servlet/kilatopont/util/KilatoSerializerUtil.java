@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
@@ -27,6 +28,10 @@ public class KilatoSerializerUtil {
 //	}
 	
 	public static void writeHegysegToFile(Hegyseg hegyseg) {
+		
+		System.out.println("write to file");
+		System.out.println("path: " + getPath());
+		
 		resetDataFile();
 		
 		Path path = Paths.get(getPath());
@@ -49,7 +54,9 @@ public class KilatoSerializerUtil {
 		
 		byte[] bytes = Files.readAllBytes(Paths.get(getPath()));
 		
-		return Optional.of(String.valueOf(bytes));
+		System.out.println("read string: " + new String(bytes, StandardCharsets.UTF_8));
+		
+		return Optional.of(new String(bytes, StandardCharsets.UTF_8));
 		
 	}
 	

@@ -11,9 +11,15 @@ import hu.godenyd.servlet.kilatopont.util.WebKeys;
 public class SaveKilatopontAction {
 	
 	public static void processAction(HttpServletRequest request, HttpServletResponse response) {
+		
+		System.out.println("Save Kilato action");
 		String nev = request.getParameter(WebKeys.NEV);
 		int magassag = Integer.parseInt(request.getParameter(WebKeys.MAGASSAG));
 		Kornyezet kornyezet = Kornyezet.getByName(request.getParameter(WebKeys.KORNYEZET));
+		
+		System.out.println("nev: " + nev);
+		System.out.println("magassag: " + magassag);
+		System.out.println("kornyezet: " + kornyezet);
 		
 		if (validate(nev, magassag, kornyezet)) {
 			Hegyseg.getHegyseg().addKilato(new Kilatopont(nev, magassag, kornyezet));

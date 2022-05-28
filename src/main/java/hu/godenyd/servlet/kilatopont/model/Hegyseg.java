@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import hu.godenyd.servlet.kilatopont.util.KilatoSerializerUtil;
+import hu.godenyd.servlet.kilatopont.util.LatogatoUtil;
 
 public class Hegyseg {
 
@@ -19,15 +19,22 @@ public class Hegyseg {
 	// initialize hegyseg
 	private Hegyseg() {
 		
+		instance = this;
+		
 		Optional<String> hegysegString = Optional.empty();
+		
+		int currentIndex = -1;
 		
 		try {
 			hegysegString = KilatoSerializerUtil.readHegysegFromFile();
+			currentIndex = LatogatoUtil.readFromFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			kilatopontok = new ArrayList<>();
-			hegysegString.ifPresent(hegyseg -> getHegyseg().deserialize(hegyseg));
+			hegysegString.ifPresent(hegyseg -> instance.deserialize(hegyseg));
+			System.out.println("index in const: " + currentIndex);
+			currentKilatopont = kilatopontok.get(currentIndex);
 		}
 		
 	}
@@ -35,7 +42,7 @@ public class Hegyseg {
 	public static Hegyseg getHegyseg() {
 		
 		if (instance == null) {
-			instance = new Hegyseg();
+			new Hegyseg();
 		}
 		
 		return instance;
@@ -46,17 +53,26 @@ public class Hegyseg {
 		KilatoSerializerUtil.writeHegysegToFile(this);
 	}
 	
-	private Kilatopont getNextKilatopont(int currentKilato) {
-		return kilatopontok.get(currentKilato++);
+	public void advanceToNextKilato() {
+		int currentIndex = getKilatoIndex(currentKilatopont);
+		
+		System.out.println("current index: " + currentIndex);
+		
+		if (currentIndex == kilatopontok.size() - 1) {
+			currentIndex = -1;
+		}
+		currentKilatopont = kilatopontok.get(++currentIndex);
+		currentKilatopont.latogatokRogzitese();
 	}
 	
-	public Kilatopont getNextKilatopont(Kilatopont currentKilato) {
-		return getNextKilatopont(kilatopontok.indexOf(currentKilato));
+	public Kilatopont getCurrentKilatopont() {
+		return currentKilatopont;
 	}
 	
 	public void restartTour() {
 		if (kilatopontok.size() > 0) {
 			currentKilatopont = kilatopontok.get(0);
+			currentKilatopont.latogatokRogzitese();
 		}
 	}
 	
@@ -67,8 +83,17 @@ public class Hegyseg {
 	}
 	
 	public void deserialize(String hegysegString) {
-		kilatopontok = Stream.of(hegysegString.split(":"))
-				.map(Kilatopont::deserialize)
-				.collect(Collectors.toList());
+		
+		String[] strings = hegysegString.split(":");
+		kilatopontok = new ArrayList<>();
+		
+		for (int i = 0; i < strings.length; i++) {
+			kilatopontok.add(Kilatopont.deserialize(strings[i]));
+		}
+		
+	}
+	
+	public int getKilatoIndex(Kilatopont kilato) {
+		return kilatopontok.indexOf(kilato);
 	}
 }
