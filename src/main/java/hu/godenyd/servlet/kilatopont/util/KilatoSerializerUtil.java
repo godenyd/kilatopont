@@ -20,17 +20,7 @@ public class KilatoSerializerUtil {
 	
 	private static final String STORAGE_FILE_NAME = "mountain_storage.dat";
 	
-//	public static List<Kilatopont> serializeKilatoponts(File file) {
-//		return kilatoStrings
-//				.stream()
-//				.map(Kilatopont::deserialize)
-//				.collect(Collectors.toList());
-//	}
-	
 	public static void writeHegysegToFile(Hegyseg hegyseg) {
-		
-		System.out.println("write to file");
-		System.out.println("path: " + getPath());
 		
 		resetDataFile();
 		
@@ -53,8 +43,6 @@ public class KilatoSerializerUtil {
 		}
 		
 		byte[] bytes = Files.readAllBytes(Paths.get(getPath()));
-		
-		System.out.println("read string: " + new String(bytes, StandardCharsets.UTF_8));
 		
 		return Optional.of(new String(bytes, StandardCharsets.UTF_8));
 		

@@ -13,7 +13,6 @@ public class LatogatoUtil {
 	private static final String STORAGE_FILE_NAME = "latogato.txt";
 
 	public static int readFromFile() {
-
 		
 		byte[] bytes = null;
 		
@@ -22,8 +21,6 @@ public class LatogatoUtil {
 		} catch (Exception e) {
 			return -1;
 		}
-
-		
 		
 		return Integer.parseInt(new String(bytes));
 	}

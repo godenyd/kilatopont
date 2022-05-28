@@ -33,7 +33,6 @@ public class Hegyseg {
 		} finally {
 			kilatopontok = new ArrayList<>();
 			hegysegString.ifPresent(hegyseg -> instance.deserialize(hegyseg));
-			System.out.println("index in const: " + currentIndex);
 			currentKilatopont = kilatopontok.get(currentIndex);
 		}
 		
@@ -55,8 +54,6 @@ public class Hegyseg {
 	
 	public void advanceToNextKilato() {
 		int currentIndex = getKilatoIndex(currentKilatopont);
-		
-		System.out.println("current index: " + currentIndex);
 		
 		if (currentIndex == kilatopontok.size() - 1) {
 			currentIndex = -1;

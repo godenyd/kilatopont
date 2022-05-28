@@ -27,13 +27,7 @@ public class Kilatopont extends Hely implements ILatnivalo {
 	
 	public static Kilatopont deserialize(String value) {
 		
-		System.out.println(String.valueOf(value));
-		System.out.println(value.getClass().getName());
 		String[] values = value.split(";");
-		
-		for (int i = 0; i < values.length; i++) {
-			System.out.println(values[i]);
-		}
 		
 		return new Kilatopont(values[0], Integer.parseInt(values[1]), Kornyezet.getByName(values[2]));
 	}
