@@ -43,6 +43,7 @@ public class Hegyseg {
 	
 	public void addKilato(Kilatopont kilato) {
 		kilatopontok.add(kilato);
+		KilatoSerializerUtil.writeHegysegToFile(this);
 	}
 	
 	private Kilatopont getNextKilatopont(int currentKilato) {
